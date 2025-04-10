@@ -1,0 +1,1 @@
+# solid-object-calisthenics-examples
