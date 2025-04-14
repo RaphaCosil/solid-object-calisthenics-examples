@@ -1,4 +1,7 @@
-// Sem o uso do princípio
+// Sem o uso do princípio Interface Segregation Principle (ISP)
+
+// A interface MediaPlayer tem métodos para tocar áudio e vídeo
+// A classe AudioPlayer implementa a interface MediaPlayer, mas não pode tocar vídeos, o que resulta em uma exceção UnsupportedOperationException
 
 interface MediaPlayer {
     fun playAudio()
@@ -25,7 +28,22 @@ class VideoPlayer : MediaPlayer {
     }
 }
 
-// Com o uso do princípio
+fun main1() {
+    val audioPlayer = AudioPlayer()
+    val videoPlayer = VideoPlayer()
+
+    audioPlayer.playAudio()
+    try { audioPlayer.playVideo() } catch (e: Exception) { println(e.message) }
+
+    videoPlayer.playAudio()
+    videoPlayer.playVideo()
+}
+
+
+// Com o uso do princípio Interface Segregation Principle (ISP)
+
+// A interface MediaPlayer foi dividida em duas interfaces: AudioPlayable e VideoPlayable
+// Isso permite que a classe AudioPlayer implemente apenas a interface AudioPlayable, sem precisar implementar métodos desnecessários
 
 interface AudioPlayable {
     fun playAudio()
@@ -49,4 +67,22 @@ class VideoPlayer : AudioPlayable, VideoPlayable {
     override fun playVideo() {
         println("Playing video...")
     }
+}
+
+fun main2() {
+    val audioPlayer = AudioPlayer()
+    val videoPlayer = VideoPlayer()
+
+    audioPlayer.playAudio()
+
+    videoPlayer.playAudio()
+    videoPlayer.playVideo()
+}
+
+fun main() {
+    println("Sem ISP:")
+    main1()
+
+    println("\nCom ISP:")
+    main2()
 }
